@@ -14,6 +14,7 @@ const passportStrategy = require("./config/passport");
 const indexRoute = require("./routes/index");
 const userRoute = require("./routes/user");
 const channelRoute = require("./routes/channel");
+const adminRoute = require("./routes/admin");
 const ajaxRoute = require("./routes/ajax");
 const app = express();
 const server = http.createServer(app, {secure: true});
@@ -36,7 +37,7 @@ function checkHttps(req, res, next) {
   }
 }
 
-app.all("*"); //("*"), checkHttps
+app.all("*", checkHttps);
 
 // Configure app and mongoose
 app.use(express.static(__dirname + "/public"));
@@ -137,11 +138,13 @@ app.get("/suspended", function(req, res) {
 
 });
 
-app.get("/admin", function(req, res) {
-  res.redirect("/");
-  // Hello, Riverside Rocks here
-  // I have the admin page shut off as it is public (very bad!!)
-});
+// marmota (gustavosilva-gss on github)
+// I'm just going to comment this out and do the routing of admin in its own file
+//app.get("/admin", function(req, res) {
+//  res.redirect("/");
+//  // Hello, Riverside Rocks here
+//  // I have the admin page shut off as it is public (very bad!!)
+//});
 
 
 
@@ -151,6 +154,7 @@ app.get("/admin", function(req, res) {
 app.use("/", indexRoute);
 app.use("/users", userRoute);
 app.use("/channel", channelRoute);
+app.use("/admin", adminRoute);
 app.use(ajaxRoute);
 app.get("*", function(req, res) {
   res.sendFile(__dirname + '/views/404.html');
