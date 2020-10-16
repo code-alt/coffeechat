@@ -36,7 +36,7 @@ function checkHttps(req, res, next) {
   }
 }
 
-app.all("*", checkHttps);
+app.all("*"); //("*"), checkHttps
 
 // Configure app and mongoose
 app.use(express.static(__dirname + "/public"));
